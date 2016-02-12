@@ -60,6 +60,7 @@ void shootLoop();
 extern void calibrate();
 extern void handleLocks();
 extern void handleLcdButtons();
+extern void handleLegs();
 
 void operatorControl() {
 
@@ -69,6 +70,7 @@ void operatorControl() {
 		calibrate();
 		handleLocks();
 		handleLcdButtons();
+		handleLegs();
 
 		//start the shoot loop
 		if (joystickGetDigital(1, 7, JOY_LEFT) == true){

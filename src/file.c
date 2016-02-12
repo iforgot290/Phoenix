@@ -45,5 +45,28 @@ void loadValues(){
 }
 
 void saveValues(){
+	fdelete("l.txt");
+	fdelete("r.txt");
 
+	char writebuf[5];
+
+	settings = fopen("l.txt", "w");
+	if (-leftdraw < 1000){
+		sprintf(writebuf, "0%d", -leftdraw);
+		fputs(writebuf, settings);
+	} else {
+		sprintf(writebuf, "%d", -leftdraw);
+		fputs(writebuf, settings);
+	}
+	fclose(settings);
+
+	settings = fopen("r.txt", "w");
+	if (rightdraw < 1000){
+		sprintf(writebuf, "0%d", rightdraw);
+		fputs(writebuf, settings);
+	} else {
+		sprintf(writebuf, "%d", rightdraw);
+		fputs(writebuf, settings);
+	}
+	fclose(settings);
 }

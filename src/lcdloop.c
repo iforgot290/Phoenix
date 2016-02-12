@@ -9,9 +9,10 @@ char state[13];
 float lastannounce = 0;
 char announce[16];
 
-extern enum state bot;
-
 void display(char*);
+extern void saveValues();
+
+extern Encoder encode;
 
 void startTask(){
 	while (1==1){
@@ -65,12 +66,10 @@ void display(char* disp){
 			lcdSetText(uart1, 1, announce);
 		}
 
-		if (bot == calib){
-			lcdSetText(uart1, 1, "Calibrate");
-		}
-
 		else {
-			lcdSetText(uart1, 1, "Driver");
+			char buf[16];
+			sprintf(buf, "Encoder: %d", encoderGet(encode));
+			lcdSetText(uart1, 1, buf);
 		}
 	}
 
@@ -88,8 +87,17 @@ void handleLcdButtons(){
 
 	int but = lcdReadButtons(uart1);
 
-	if (but == 1){ //save values
+	int shouldsave = 0;
 
+	while (but == 1){
+		shouldsave = 1;
+		but = lcdReadButtons(uart1);
+		delay(25);
+	}
+
+	if (shouldsave == 1){ //save values
+		saveValues();
+		showAnnounce("Saved");
 	}
 
 }
