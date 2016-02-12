@@ -107,7 +107,7 @@ void handleLcdButtons(){
 		shootLeft();
 	}
 
-	else if (but == 3){
+	else if (but == 4){
 		showAnnounce("Shooting Left");
 		shootRight();
 	}
