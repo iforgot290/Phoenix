@@ -2,12 +2,8 @@
 
 extern int leftdraw;
 extern int rightdraw;
-extern Encoder encode;
-
-extern void wind(int);
 
 void calibrate(){
-	//lcdSetText(uart1, 1, "Calibration");
 
 	/*if (joystickGetDigital(1, 7, JOY_DOWN)){
 		wind(127);

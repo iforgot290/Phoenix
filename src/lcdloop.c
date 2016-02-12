@@ -13,6 +13,8 @@ void display(char*);
 extern void saveValues();
 
 extern Encoder encode;
+extern void shootLeft();
+extern void shootRight();
 
 void startTask(){
 	while (1==1){
@@ -62,7 +64,7 @@ void startTask(){
 
 void display(char* disp){
 	if (current == driver){
-		if (announce != NULL && millis() - lastannounce <= 5000){
+		if (announce != NULL && millis() - lastannounce <= 3000){
 			lcdSetText(uart1, 1, announce);
 		}
 
@@ -98,6 +100,16 @@ void handleLcdButtons(){
 	if (shouldsave == 1){ //save values
 		saveValues();
 		showAnnounce("Saved");
+	}
+
+	else if (but == 2){
+		showAnnounce("Shooting Right");
+		shootLeft();
+	}
+
+	else if (but == 3){
+		showAnnounce("Shooting Left");
+		shootRight();
 	}
 
 }
