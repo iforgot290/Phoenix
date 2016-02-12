@@ -40,72 +40,17 @@ void initializeIO() {
 
 TaskHandle task;
 extern void startTask();
-
-extern int rightdraw;
-extern int leftdraw;
-
-FILE *settings;
+extern void loadValues();
+extern Encoder encode;
 
 void initialize() {
 	lcdInit(uart1);
 	lcdSetBacklight(uart1, true);
 	lcdSetText(uart1, 1, "Initializing...");
 
-	char filecont[5];
+	encode = encoderInit(1, 2, true);
 
-	//begin right shooter retrieval
-
-	settings = fopen("r.txt", "r");
-
-	if (settings == NULL){
-		fclose(settings);
-		settings = fopen("r.txt", "w");
-		fputs("0900", settings);
-		fclose(settings);
-		settings = fopen("r.txt", "r");
-	}
-
-	fread(filecont, 1, 4, settings);
-	filecont[4] = '\0';
-
-	fclose(settings);
-
-	rightdraw = atoi(filecont);
-
-	//end right shooter retrieval
-
-	//begin left
-
-	settings = fopen("l.txt", "r");
-
-	if (settings == NULL){
-		fclose(settings);
-		settings = fopen("l.txt", "w");
-		fputs("0900", settings);
-		fclose(settings);
-		settings = fopen("l.txt", "r");
-	}
-
-	fread(filecont, 1, 4, settings);
-	filecont[4] = '\0';
-
-	fclose(settings);
-
-	leftdraw = -atoi(filecont);
-
-	//end left
-
-	char buf[16];
-	sprintf(buf, "%d", rightdraw);
-
-	//lcdSetText(uart1, 2, buf);
-
-	//delay(10000);
-
-
-
-	//sscanf(rd, "%d", &rightdraw);
-	//sscanf(ld, "%d", &leftdraw);
+	loadValues();
 
 	task = taskCreate(startTask, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 }

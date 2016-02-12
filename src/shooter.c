@@ -28,8 +28,8 @@ int rightdrop = -450; //minimum value that right arm drops at
 
 extern int shootgo;
 
-void lockLeft();
-void lockRight();
+extern void lockLeft();
+extern void lockRight();
 
 void shootLeft();
 void shootRight();
@@ -37,6 +37,8 @@ void shootRight();
 void wind();
 
 extern Encoder encode;
+
+extern void calibrate();
 
 void shootLoop(){
 
@@ -48,74 +50,8 @@ void shootLoop(){
 	}
 }
 
-/*void shootOldLoop(Encoder *encode){
-
-	bool left = true;
-
-	while (go() == 1){
-
-		int encval = encoderGet(*encode);
-
-		if (left){
-			//not ready to shoot left
-			if (encval > leftdraw){
-				wind(leftwind);
-			}
-
-			//ready to shoot left
-			else if (encval < leftdraw){
-				wind(lefthold);
-				lockRight();
-				wind(0);
-				left = false;
-			}
-
-			if (encval < rightdrop){
-				if (rightlocked == false){
-					lockRight(true);
-				}
-			}
-		}
-
-		if (!left){
-			//not ready to shoot right
-			if (encval < rightdraw){
-				wind(-leftwind);
-			}
-
-			//ready to shoot right
-			else if (encval > rightdraw){
-				wind(-lefthold);
-				lockLeft();
-				wind(0);
-				left = true;
-			}
-
-			if (encval > leftdrop){
-				if (leftlocked == false){
-					lockLeft(true);
-				}
-			}
-		}
-
-		if (joystickGetDigital(1, 8, JOY_DOWN)){
-			motorStopAll();
-			break;
-		}
-
-		char buf[16];
-		sprintf(buf, "Encode: %d", encval);
-		lcdSetText(uart1, 1, "Shoot Loop");
-		lcdSetText(uart1, 2, buf);
-
-		delay(25);
-
-	}
-
-}*/
-
 void shootLeft(){
-	while (shootgo){
+	while (true){
 
 		int encval = encoderGet(encode);
 
@@ -139,13 +75,14 @@ void shootLeft(){
 			break;
 		}
 
+		calibrate();
 		delay(25);
 	}
 }
 
 void shootRight(){
 
-	while (shootgo){
+	while (true){
 
 		int encval = encoderGet(encode);
 
@@ -169,6 +106,7 @@ void shootRight(){
 			break;
 		}
 
+		calibrate();
 		delay(25);
 	}
 }
@@ -181,17 +119,5 @@ void wind(int speed){
 	motorSet(3, -speed);
 	motorSet(8, speed);
 	motorSet(9, speed);
-}
-
-int go(){
-	return 1;
-}
-
-void lockLeft(){
-
-}
-
-void lockRight(){
-
 }
 

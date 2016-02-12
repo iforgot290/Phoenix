@@ -50,74 +50,31 @@ bool rightshooting = true;
 
 int encval = 0;
 
-enum state bot = calib;
+enum state bot = control;
 
 Encoder encode;
 
 int shootgo = 0;
-void wind();
 void shootLoop();
 
 extern void calibrate();
+extern void handleLocks();
+extern void handleLcdButtons();
 
 void operatorControl() {
-	encode = encoderInit(1, 2, true);
-	lcdSetText(uart1, 1, "Autonomous?");
-	delay(1000);
-	if (lcdReadButtons(uart1)==1){ //check for autonomous
-		lcdSetText(uart1, 1, "Autonomous!");
-		autonomous();
-	}
 
 	while (true)
 	{
-		encval = encoderGet(encode);
 
-		if (bot == calib){
-			//lcdSetText(uart1, 1, "Calibration");
-			calibrate(); //calibration mode
-		}
-
-		else {
-			//lcdSetText(uart1, 1, "Driver");
-		}
-
-		int lcdbut = lcdReadButtons(uart1);
-
-		if (lcdbut == 1){
-			bot = control;
-		} else if (lcdbut == 2){
-			bot = calib;
-		}
-
-		//Locking thinger
-		if (joystickGetDigital(1, 5, JOY_UP) == true){
-			motorSet(1, 127);
-		} else if (joystickGetDigital(1, 5, JOY_DOWN) == true){
-			motorSet(1, -127);
-		} else {
-			motorSet(1, 0);
-		}
-
-		//Other locking thinger
-		if (joystickGetDigital(1, 6, JOY_UP) == true){
-			motorSet(10, 127);
-		} else if (joystickGetDigital(1, 6, JOY_DOWN) == true){
-			motorSet(10, -127);
-		} else {
-			motorSet(10, 0);
-		}
+		calibrate();
+		handleLocks();
+		handleLcdButtons();
 
 		//start the shoot loop
 		if (joystickGetDigital(1, 7, JOY_LEFT) == true){
 			shootgo = 1;
 			shootLoop();
 		}
-
-		//Show encoder value
-		char buf[16];
-		sprintf(buf, "Encode: %d", encval);
-		//lcdSetText(uart1, 2, buf);
 
 		delay(25);
 	}

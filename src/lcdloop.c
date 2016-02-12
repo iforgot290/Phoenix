@@ -61,7 +61,7 @@ void startTask(){
 
 void display(char* disp){
 	if (current == driver){
-		if (announce != NULL && millis() - lasttime <= 5000){
+		if (announce != NULL && millis() - lastannounce <= 5000){
 			lcdSetText(uart1, 1, announce);
 		}
 
@@ -80,5 +80,16 @@ void display(char* disp){
 }
 
 void showAnnounce(char* disp){
-	lasttime = millis();
+	lastannounce = millis();
+	strncpy(announce, disp, 16);
+}
+
+void handleLcdButtons(){
+
+	int but = lcdReadButtons(uart1);
+
+	if (but == 1){ //save values
+
+	}
+
 }
