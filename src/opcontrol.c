@@ -70,7 +70,7 @@ void operatorControl() {
 		calibrate();
 		handleLocks();
 		handleLcdButtons();
-		handleLegs();
+		//handleLegs();
 
 		//start the shoot loop
 		if (joystickGetDigital(1, 7, JOY_LEFT) == true){

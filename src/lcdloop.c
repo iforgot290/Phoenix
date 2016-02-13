@@ -16,6 +16,8 @@ extern Encoder encode;
 extern void shootLeft();
 extern void shootRight();
 
+extern enum state bot;
+
 void startTask(){
 	while (1==1){
 		char buf[15];
@@ -103,13 +105,11 @@ void handleLcdButtons(){
 	}
 
 	else if (but == 2){
-		showAnnounce("Shooting Right");
-		shootLeft();
+		bot = calib;
 	}
 
 	else if (but == 4){
-		showAnnounce("Shooting Left");
-		shootRight();
+		bot = driver;
 	}
 
 }

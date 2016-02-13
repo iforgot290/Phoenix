@@ -117,6 +117,8 @@ void shootRight(){
 void wind(int speed){
 	motorSet(2, -speed);
 	motorSet(3, -speed);
+	motorSet(4, -speed);
+	motorSet(7, speed);
 	motorSet(8, speed);
 	motorSet(9, speed);
 }

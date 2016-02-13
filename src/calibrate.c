@@ -1,17 +1,17 @@
 #include "main.h"
+#include "robotstate.h"
 
 extern int leftdraw;
 extern int rightdraw;
 
+extern void wind(int);
+extern enum state bot;
+
 void calibrate(){
 
-	/*if (joystickGetDigital(1, 7, JOY_DOWN)){
-		wind(127);
-	} else if (joystickGetDigital(1, 7, JOY_UP)){
-		wind(-127);
-	} else {
-		wind(0);
-	}*/
+	if (bot == calib){
+		wind(joystickGetAnalog(1, 3));
+	}
 
 	int oldval = leftdraw;
 
