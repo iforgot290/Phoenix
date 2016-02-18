@@ -7,10 +7,26 @@ extern int rightdraw;
 extern void wind(int);
 extern enum state bot;
 
+extern Encoder encode;
+extern void shootLeft();
+extern void shootRight();
+
 void calibrate(){
 
 	if (bot == calib){
 		wind(joystickGetAnalog(1, 3));
+
+		if (joystickGetDigital(1, 7, JOY_RIGHT)){
+			encoderReset(encode);
+		}
+
+		if (joystickGetDigital(1, 8, JOY_LEFT)){
+			shootLeft();
+		}
+
+		if (joystickGetDigital(1, 8, JOY_RIGHT)){
+			shootRight();
+		}
 	}
 
 	int oldval = leftdraw;

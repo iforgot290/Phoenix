@@ -13,10 +13,9 @@ void display(char*);
 extern void saveValues();
 
 extern Encoder encode;
-extern void shootLeft();
-extern void shootRight();
 
 extern enum state bot;
+extern enum direction shootdir;
 
 void startTask(){
 	while (1==1){
@@ -64,6 +63,8 @@ void startTask(){
 	}
 }
 
+extern int drinv;
+
 void display(char* disp){
 	if (current == driver){
 		if (announce != NULL && millis() - lastannounce <= 3000){
@@ -71,9 +72,31 @@ void display(char* disp){
 		}
 
 		else {
-			char buf[16];
-			sprintf(buf, "Encoder: %d", encoderGet(encode));
-			lcdSetText(uart1, 1, buf);
+			if (bot == calib){
+				char buf[16];
+				sprintf(buf, "Calibrate: %d", encoderGet(encode));
+				lcdSetText(uart1, 1, buf);
+			} else if (bot == lift){
+				if (drinv == 1){
+					lcdSetText(uart1, 1, "Up");
+				} else {
+					lcdSetText(uart1, 1, "Down");
+				}
+			} else if (bot == shoot){
+				if (shootdir == left){
+					char buf[16];
+					sprintf(buf, "Left: %d", encoderGet(encode));
+					lcdSetText(uart1, 1, buf);
+				} else {
+					char buf[16];
+					sprintf(buf, "Right: %d", encoderGet(encode));
+					lcdSetText(uart1, 1, buf);
+				}
+			} else if (bot == control){
+				char buf[16];
+				sprintf(buf, "Encoder: %d", encoderGet(encode));
+				lcdSetText(uart1, 1, buf);
+			}
 		}
 	}
 
@@ -109,7 +132,7 @@ void handleLcdButtons(){
 	}
 
 	else if (but == 4){
-		bot = driver;
+		bot = control;
 	}
 
 }

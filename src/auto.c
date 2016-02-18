@@ -17,6 +17,10 @@
 
 #include "main.h"
 
+extern void autonLock();
+extern void shootLeft();
+extern void shootRight();
+
 /**
 * Runs the user autonomous code.
 *
@@ -27,9 +31,9 @@
 * The autonomous task may exit, unlike operatorControl() which should never exit. If it does so, the robot will await a switch to another mode or disable/enable cycle.
 */
 void autonomous() {
-	while (1 == 1){
-		if (lcdReadButtons(uart1)==1){
-			break;
-		}
-	}
+
+	autonLock();
+	shootLeft();
+	shootRight();
+
 }

@@ -1,11 +1,27 @@
 #include "main.h"
 
 void lockLeft(){
-
+	motorSet(1, -127);
+	motorSet(10, -127);
+	delay(500);
+	motorSet(1, 0);
+	motorSet(10, 0);
 }
 
 void lockRight(){
+	motorSet(1, 127);
+	motorSet(10, 127);
+	delay(500);
+	motorSet(1, 0);
+	motorSet(10, 0);
+}
 
+void autonLock(){
+	motorSet(1, -127);
+	motorSet(10, -127);
+	delay(250);
+	motorSet(1, 0);
+	motorSet(10, 0);
 }
 
 void handleLocks(){

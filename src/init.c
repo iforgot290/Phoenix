@@ -48,7 +48,7 @@ void initialize() {
 	lcdSetBacklight(uart1, true);
 	lcdSetText(uart1, 1, "Initializing...");
 
-	encode = encoderInit(1, 2, true);
+	encode = encoderInit(1, 2, false);
 
 	loadValues();
 

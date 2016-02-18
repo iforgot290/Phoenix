@@ -12,6 +12,7 @@
  */
 
 #include "main.h"
+#include "robotstate.h"
 
 bool leftlocked = true;
 bool rightlocked = false;
@@ -37,6 +38,8 @@ void shootRight();
 void wind();
 
 extern Encoder encode;
+extern enum state bot;
+enum direction shootdir;
 
 extern void calibrate();
 
@@ -53,6 +56,8 @@ void shootLoop(){
 void shootLeft(){
 	while (true){
 
+		shootdir = left;
+
 		int encval = encoderGet(encode);
 
 		//not ready to shoot left
@@ -68,14 +73,23 @@ void shootLeft(){
 			break;
 		}
 
+		int shouldstop = 0;
+
+		if (!isAutonomous()){
+			while (joystickGetDigital(1, 7, JOY_LEFT)){
+				shouldstop = 1;
+			}
+			calibrate();
+		}
+
 		//break if stop button is pushed
-		if (joystickGetDigital(1, 8, JOY_DOWN)){
+		if (shouldstop){
 			motorStopAll();
 			shootgo = 0;
+			bot = control;
 			break;
 		}
 
-		calibrate();
 		delay(25);
 	}
 }
@@ -83,6 +97,8 @@ void shootLeft(){
 void shootRight(){
 
 	while (true){
+
+		shootdir = right;
 
 		int encval = encoderGet(encode);
 
@@ -99,14 +115,23 @@ void shootRight(){
 			break;
 		}
 
+		int shouldstop = 0;
+
+		if (!isAutonomous()){
+			while (joystickGetDigital(1, 7, JOY_LEFT)){
+				shouldstop = 1;
+			}
+			calibrate();
+		}
+
 		//break if stop button is pushed
-		if (joystickGetDigital(1, 8, JOY_DOWN)){
+		if (shouldstop){
 			motorStopAll();
 			shootgo = 0;
+			bot = control;
 			break;
 		}
 
-		calibrate();
 		delay(25);
 	}
 }
@@ -117,8 +142,6 @@ void shootRight(){
 void wind(int speed){
 	motorSet(2, -speed);
 	motorSet(3, -speed);
-	motorSet(4, -speed);
-	motorSet(7, speed);
 	motorSet(8, speed);
 	motorSet(9, speed);
 }
