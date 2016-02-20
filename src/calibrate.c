@@ -19,14 +19,6 @@ void calibrate(){
 		if (joystickGetDigital(1, 7, JOY_RIGHT)){
 			encoderReset(encode);
 		}
-
-		if (joystickGetDigital(1, 8, JOY_LEFT)){
-			shootLeft();
-		}
-
-		if (joystickGetDigital(1, 8, JOY_RIGHT)){
-			shootRight();
-		}
 	}
 
 	int oldval = leftdraw;

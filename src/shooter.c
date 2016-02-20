@@ -21,8 +21,8 @@ int lockmotor = 10;
 
 int leftdraw = -400; // distance to wind up left shooter
 int leftdrop = 400; //minimum value that left arm drops at
-int leftwind = -127; //motor speed to tighten left shooter
-int lefthold = -40; //value to hold motors
+int leftwind = 127; //motor speed to tighten left shooter
+int lefthold = 40; //value to hold motors
 
 int rightdraw = 400; //distance to wind up right shooter
 int rightdrop = -450; //minimum value that right arm drops at
@@ -59,6 +59,8 @@ void shootLeft(){
 		shootdir = left;
 
 		int encval = encoderGet(encode);
+
+		printf("getting ready to shoot");
 
 		//not ready to shoot left
 		if (encval > leftdraw){

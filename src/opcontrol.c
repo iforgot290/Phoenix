@@ -62,6 +62,9 @@ extern void handleLocks();
 extern void handleLcdButtons();
 extern void legs();
 
+extern void shootLeft();
+extern void shootRight();
+
 void operatorControl() {
 
 	while (true)
@@ -72,11 +75,41 @@ void operatorControl() {
 		handleLcdButtons();
 		legs();
 
+		int shouldshoot = 0;
+
+		while (joystickGetDigital(1, 7, JOY_LEFT)){
+			shouldshoot = 1;
+		}
+
 		//start the shoot loop
-		if (joystickGetDigital(1, 7, JOY_LEFT) == true){
+		if (shouldshoot){
 			shootgo = 1;
 			bot = shoot;
 			shootLoop();
+		}
+
+		int shouldlift = 0;
+
+		while (joystickGetDigital(2, 8, JOY_LEFT)){
+			shouldlift = 1;
+		}
+
+		if (shouldlift){
+			if (bot == lift){
+				bot = control;
+			} else {
+				bot = lift;
+			}
+		}
+
+		if (bot == control){
+			if (joystickGetDigital(1, 8, JOY_LEFT)){
+				shootLeft();
+			}
+
+			if (joystickGetDigital(1, 8, JOY_RIGHT)){
+				shootRight();
+			}
 		}
 
 		delay(25);

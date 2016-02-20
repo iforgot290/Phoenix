@@ -44,11 +44,14 @@ extern void loadValues();
 extern Encoder encode;
 
 void initialize() {
+	printf("test");
 	lcdInit(uart1);
 	lcdSetBacklight(uart1, true);
+	lcdInit(uart2);
+	lcdSetBacklight(uart2, true);
 	lcdSetText(uart1, 1, "Initializing...");
 
-	encode = encoderInit(1, 2, false);
+	encode = encoderInit(1, 2, true);
 
 	loadValues();
 

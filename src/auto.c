@@ -32,7 +32,6 @@ extern void shootRight();
 */
 void autonomous() {
 
-	autonLock();
 	shootLeft();
 	shootRight();
 
